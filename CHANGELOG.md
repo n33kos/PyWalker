@@ -10,13 +10,11 @@ Changelog
 - Added formatted stdout functionality (default command function)
 
 ###To-Do###
-- Implement directory only output
 - Implement JSON Export
 - Implement XML Export
 - Implement HTML Export
-- Include css stylesheet injection
-- Implement terminal output
-- Implement String Replacement config file
+- Implement String Replacement filters
+- Implement ignore filters
 - Comp interface
 - Customize stylesheet
 
@@ -24,3 +22,4 @@ Changelog
 - Add description feature
 - Database support?
 - Smarty controller integration
+- Implement directory only output

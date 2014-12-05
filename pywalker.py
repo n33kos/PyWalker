@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#---------PyleWalker V_0.1-----------
+#---------PyWalker V_0.1-----------
 import os, sys, argparse
 
 #---------Global Variables-----------
@@ -16,6 +16,7 @@ group = parser.add_mutually_exclusive_group()
 group.add_argument("-xml", help="Export to XML", action="store_true")
 group.add_argument("-json", help="Export to JSON", action="store_true")
 group.add_argument("-html", help="Export to HTML", action="store_true")
+group.add_argument("-nr", help="Non-recursive directory return", action="store_true")
 parser.add_argument("--f", help="Custom file name")
 parser.add_argument("--p", help="Starting file path")
 args = parser.parse_args()
@@ -33,28 +34,12 @@ else:
 	startingLocation = '.'
 
 #------------Functions---------------
-def openFile(filename = 'index.html'):
+def openFile(filename):
 	global f
 	f = open(filename, 'w')
 
 def closeFile(filevar):
 	filevar.close()
-
-def html_output_test(startpath, fileName):
-	openFile(fileName)
-	f.write('<html><body>'+'\n')
-	f.write('<link rel="stylesheet" type="text/css" href="style.css">'+'\n')
-	print('WORKING...')
-	for root, dirs, files in os.walk(startpath, topdown=True):
-		level = root.replace(startpath, '').count(os.sep)
-		f.write('<div class="dir level"><h'+str(level+1)+'>'+str(os.path.basename(root)))
-		f.write('</h'+str(level+1)+'>'+'\n')
-		for fyle in files:
-			f.write('<div class="file">'+str(fyle)+'</div>'+'\n')
-		f.write('</div>')
-	f.write('</body></html>'+'\n')
-	closeFile(f)
-	print('Completed.')
 
 def list_files(startpath, padding):
     for root, dirs, files in os.walk(startpath):
@@ -65,6 +50,39 @@ def list_files(startpath, padding):
         for f in files:
             print('{}{}'.format(subindent, f))
 
+#def html_output_test(startpath, fileName):
+#	openFile(fileName)
+#	f.write('<html><body>'+'\n')
+#	f.write('<link rel="stylesheet" type="text/css" href="style.css">'+'\n')
+#	print('WORKING...')
+#	for root, dirs, files in os.walk(startpath, topdown=True):
+#		level = root.replace(startpath, '').count(os.sep)
+#		f.write('<div class="dir level"><h'+str(level+1)+'>'+str(os.path.basename(root)))
+#		f.write('</h'+str(level+1)+'>'+'\n')
+#		for fyle in files:
+#			f.write('<div class="file">'+str(fyle)+'</div>'+'\n')
+#		f.write('</div>')
+#	f.write('</body></html>'+'\n')
+#	closeFile(f)
+#	print('Completed.')
+
+def html_output(startpath, fileName):
+	openFile(fileName)
+	f.write('<html><body>'+'\n')
+	f.write('<link rel="stylesheet" type="text/css" href="style.css">'+'\n')
+	print('WORKING...')
+	for root, dirs, files in os.walk(startpath, topdown=True):
+		level = root.replace(startpath, '').count(os.sep)
+		f.write('<div class="dir"><h'+str(level+1)+'>'+str(os.path.basename(root)))
+		f.write('</h'+str(level+1)+'>'+'\n'+'<ul>')
+		for fyle in files:
+			f.write('<li class="file">'+str(fyle)+'</li>'+'\n')
+		f.write('</ul></div>')
+	f.write('</body></html>'+'\n')
+	closeFile(f)
+	print('Completed.')
+
+
 #------------Execute---------------
 if fileName == 'terminal':
 	list_files(startingLocation, 5)
@@ -73,13 +91,10 @@ else:
 		fileName += '.xml'
 		#xml output
 		print('xml')
-		html_output_test(startingLocation, fileName)
 	if args.json:
 		fileName += '.json'
 		#json output
 		print('json')
-		html_output_test(startingLocation, fileName)
 	if args.html:
 		fileName += '.html'
-		print('html')
-		html_output_test(startingLocation, fileName)
+		html_output(startingLocation, fileName)
