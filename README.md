@@ -7,7 +7,7 @@ A python file walker which outputs structure to XML, JSON, or HTML.
 - Output to stdout, XML, HTML, or JSON
 
 ###Usage###
-usage: pywalker.py [-h] [-xml | -json | -html] [--f FILENAME] [--p PATH]
+pywalker.py [-h] [-xml | -json | -html] [--f FILENAME] [--p PATH]
 
 ###Arguments###
   -h, --help  show this help message and exit

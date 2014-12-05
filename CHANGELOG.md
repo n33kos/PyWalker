@@ -14,7 +14,7 @@ Changelog
 - Implement JSON Export
 - Implement XML Export
 - Implement HTML Export
--- Include css stylesheet injection
+- Include css stylesheet injection
 - Implement terminal output
 - Implement String Replacement config file
 - Comp interface
