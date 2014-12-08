@@ -1,6 +1,10 @@
 Changelog
 ========
-###V_0.1###
+
+###V 0.2###
+- Added string replace filter function
+
+###V 0.1###
 - Tested output speed and methods
 - Set up plaintext prototype with HTML output
 - Created stylesheet
