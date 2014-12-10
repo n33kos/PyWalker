@@ -1,4 +1,4 @@
 #Site Configurations
 replaceDict = {
-'original_text' : 'replaced text',
+'CHANGELOG.md' : 'FILTER SUCCESSFUL',
 }

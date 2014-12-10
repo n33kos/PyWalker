@@ -3,6 +3,11 @@ Changelog
 
 ###V 0.2###
 - Added string replace filter function
+- Refined string replace function to work for files or directories
+- Implemented file extension hide option
+- Implemented ignore filter
+- Implemented directory only output
+- Implemented JSON Export
 
 ###V 0.1###
 - Tested output speed and methods
@@ -14,16 +19,6 @@ Changelog
 - Added formatted stdout functionality (default command function)
 
 ###To-Do###
-- Implement JSON Export
 - Implement XML Export
-- Implement HTML Export
-- Implement String Replacement filters
-- Implement ignore filters
-- Comp interface
-- Customize stylesheet
-
-###Wishlist###
-- Add description feature
-- Database support?
-- Smarty controller integration
-- Implement directory only output
+- Re-integrate argument functionality into JSON export
+-
