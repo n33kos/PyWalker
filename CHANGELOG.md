@@ -1,6 +1,9 @@
 Changelog
 ========
 
+###V 1.0###
+- Re-integrated argument functionality into JSON export
+
 ###V 0.2###
 - Added string replace filter function
 - Refined string replace function to work for files or directories
@@ -20,5 +23,3 @@ Changelog
 
 ###To-Do###
 - Implement XML Export
-- Re-integrate argument functionality into JSON export
--

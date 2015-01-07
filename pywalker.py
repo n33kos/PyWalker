@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#---------PyWalker V_0.1-----------
+#---------PyWalker V_1.0-----------
 import os, sys, argparse, json
 from filters_replace import replaceDict
 from filters_ignore import ignoreDict
@@ -14,14 +14,12 @@ args = sys.argv
 parser = argparse.ArgumentParser()
 
 #---------Parse Arguments-----------
-group = parser.add_mutually_exclusive_group()
-group.add_argument("-xml", help="Export to XML", action="store_true")
-group.add_argument("-json", help="Export to JSON", action="store_true")
 
 group2 = parser.add_mutually_exclusive_group()
 group2.add_argument("-dirs", help="Directory only output", action="store_true")
 group2.add_argument("-files", help="File only output", action="store_true")
 
+parser.add_argument("-json", help="Export to JSON", action="store_true")
 parser.add_argument("-filter", help="Use replacement filter", action="store_true")
 parser.add_argument("-ignore", help="Use ignore filter", action="store_true")
 parser.add_argument("-hide", help="Hide file extensions", action="store_true")
@@ -32,7 +30,7 @@ args = parser.parse_args()
 
 if args.f:
     fileName = args.f
-elif args.xml or args.json:
+elif args.json:
 	fileName = 'pywalker_output'
 else:
 	fileName = 'terminal'
@@ -70,7 +68,7 @@ def remove_extension(theString):
 	return newString
 
 def list_files(startpath, padding):
-    for root, dirs, files in os.walk(startpath, topdown=True):
+	for root, dirs, files in os.walk(startpath, topdown=True):
 		level = root.replace(startpath, '').count(os.sep)
 		indent = ' ' * padding * (level)
 		if args.dirs or args.files == False:
@@ -100,6 +98,7 @@ def json_output(startpath, fileName):
 
 	f.write('{')
 	counter = 0
+	fileOnlyList = []
 	for root, dirs, files in os.walk(startpath, topdown=True):
 		level = root.replace(startpath, '').count(os.sep)
 		if counter > 0:
@@ -110,23 +109,42 @@ def json_output(startpath, fileName):
 		f.write(':')
 		for i, d in enumerate(dirs):
 			dirs[i] += '/'
-		f.write(json.dumps(dirs+files))
+			if parse_ignore(dirs[i]) != True:
+				dirs.remove(dirs[i])
+		for i, g in enumerate(files):
+			if parse_ignore(files[i]) != True:
+				files.remove(files[i])
+			if args.hide:
+				if args.filter:
+					files[i] = filter_output(remove_extension(files[i]))
+				else:
+					files[i] = remove_extension(files[i])
+			else:
+				if args.filter:
+					files[i] = filter_output(files[i])
+		if args.dirs == True and args.files == False:
+			f.write(json.dumps(dirs))
+		elif args.files == True and args.dirs == False:
+			for i in files:
+				fileOnlyList.append(i)
+		else:
+			f.write(json.dumps(dirs+files))
 		counter += 1
+	if args.files == True and args.dirs == False:
+		f.write(json.dumps(fileOnlyList))
 	f.write('}')
 
 	closeFile(f)
 	print('Completed.')
 
-def xml_output(startpath, fileName):
-	print('yay, xml.')
-
 #------------Execute---------------
 if fileName == 'terminal':
-	list_files(startingLocation, 5)
+	if args.files:
+		paddingval = 0
+	else:
+		paddingval = 3
+	list_files(startingLocation, paddingval)
 else:
-	if args.xml:
-		fileName += '.xml'
-		xml_output(startingLocation, fileName)
 	if args.json:
 		fileName += '.json'
 		json_output(startingLocation, fileName)
