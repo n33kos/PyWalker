@@ -1,6 +1,6 @@
 PyWalker
 ========
-A python file walker which outputs structure to stdout or JSON.
+A python file walker which outputs hierarchy to stdout or JSON.
 
 ###Features###
 - Return directory structure or entire file tree
